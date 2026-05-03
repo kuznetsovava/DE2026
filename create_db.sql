@@ -10,7 +10,7 @@ CREATE SCHEMA IF NOT EXISTS meta;
 
 
 
-CREATE TABLE meta.load_log (
+CREATE TABLE IF NOT EXISTS meta.load_log (
 	id serial4 NOT NULL,
 	table_name varchar(100) NULL,
 	load_start timestamp NULL,
@@ -20,7 +20,7 @@ CREATE TABLE meta.load_log (
 	CONSTRAINT load_log_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE stg.deal (
+CREATE TABLE IF NOT EXISTS stg.deal (
 	id int4 NULL,
 	datetime timestamptz NULL,
 	amount numeric NULL,
@@ -31,7 +31,7 @@ CREATE TABLE stg.deal (
 	hash_key varchar(64) NULL
 );
 
-CREATE TABLE stg.expense (
+CREATE TABLE IF NOT EXISTS stg.expense (
 	id int4 NULL,
 	datetime timestamptz NULL,
 	amount numeric NULL,
@@ -39,7 +39,7 @@ CREATE TABLE stg.expense (
 	loaded_at timestamptz DEFAULT CURRENT_TIMESTAMP NULL
 );
 
-CREATE TABLE stg.income (
+CREATE TABLE IF NOT EXISTS stg.income (
 	id int4 NULL,
 	amount numeric NULL,
 	tauschpartner text NULL,
@@ -50,7 +50,7 @@ CREATE TABLE stg.income (
 	loaded_at timestamptz DEFAULT CURRENT_TIMESTAMP NULL
 );
 
-CREATE TABLE dwh.dim_city (
+CREATE TABLE IF NOT EXISTS dwh.dim_city (
 	id int4 NOT NULL,
 	ccode varchar(3) NULL,
 	nname varchar(50) NULL,
@@ -58,7 +58,7 @@ CREATE TABLE dwh.dim_city (
 );
 
 
-CREATE TABLE dwh.dim_date (
+CREATE TABLE IF NOT EXISTS dwh.dim_date (
 	id int4 NOT NULL,
 	date_dat date NULL,
 	date_month date NULL,
@@ -67,13 +67,13 @@ CREATE TABLE dwh.dim_date (
 	CONSTRAINT dim_date_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE dwh.dim_operation (
+CREATE TABLE IF NOT EXISTS dwh.dim_operation (
 	id int4 NOT NULL,
 	nname varchar(50) NULL,
 	CONSTRAINT dim_operation_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE dwh.fact_cashflow (
+CREATE TABLE IF NOT EXISTS dwh.fact_cashflow (
 	hash_key varchar(64) NOT NULL,
 	cashflow_id int4 NOT NULL,
 	operation_id int4 NOT NULL,
@@ -84,7 +84,7 @@ CREATE TABLE dwh.fact_cashflow (
 	CONSTRAINT fact_cashflow_pkey PRIMARY KEY (hash_key)
 );
 
-CREATE TABLE dwh.fact_deal (
+CREATE TABLE IF NOT EXISTS dwh.fact_deal (
 	hash_key varchar(64) NOT NULL,
     deal_id int4 NOT NULL,
 	date_id int4 NOT NULL,
