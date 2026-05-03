@@ -82,17 +82,15 @@ def load_expense(**context):
         
 def get_city_id(category: str):
     """
-    Определяет city_id по категории:
-    - Если в category найдено слово 'Москва', 'мск', 'московская' → возвращает 56
-    - Если найдено 'Санкт-Петербург', 'спб', 'питер', 'ленинград' → возвращает 324
-    Иначе → None
+    Определяет city_id по категории
+
     """
     if category is None:
         return None
     cat_lower = category.lower()
     
     # Москва → 56
-    if any(word in cat_lower for word in ['москва', 'мск', 'московская']):
+    if any(word in cat_lower for word in ['москва', 'московская']):
         return 56
     
     # Санкт-Петербург → 324
@@ -103,10 +101,7 @@ def get_city_id(category: str):
 
 # Расчет для dwh таблицы
 def load_fact_cashflow(**context):
-    """
-    Читает все записи из stg.expense, дополняет их city_id, date_id, hash_key
-    и выполняет UPSERT в dwh.fact_cashflow по первичному ключу hash_key.
-    """
+  
     target_hook = PostgresHook(postgres_conn_id='DE2026_conn')
     conn_target = target_hook.get_conn()
     
